@@ -81,7 +81,7 @@ def main():
                     return f'background-color: {color}'
                 
                 st.write("## Sensor Data")
-                st.dataframe(df[['sensor_index', 'name', 'last_seen', 'latitude', 'longitude', 'status','notes']].style.applymap(color_status, subset=['status']),height=700)
+                st.dataframe(df[['sensor_index', 'name', 'last_seen', 'latitude', 'longitude', 'status','notes']].style.applymap(color_status, subset=['status']),height=600)
 
                 st.write("## Status Color Coding")
                 st.markdown("""
