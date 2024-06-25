@@ -39,6 +39,13 @@ def determine_status(last_seen_time):
         return "yellow"
     else:
         return "red"
+    
+def calculate_notes(last_seen_time):
+    current_time = datetime.now(timezone.utc)
+    time_difference = current_time - last_seen_time
+    if(time_difference <= timedelta(hours=1)):
+        return 'Sensor online'
+    return 'Time since sensor offline'+' '+str(time_difference)
 
 def main():
     st.title("PurpleAir Sensor Status")
@@ -62,6 +69,8 @@ def main():
                 
                 df['last_seen'] = df['last_seen'].apply(lambda x: convert_to_ny_time(x))
                 df['status'] = df['last_seen'].apply(lambda x: determine_status(x))
+                df['notes'] = df['last_seen'].apply(lambda x: calculate_notes(x))
+
                 
                 # Define custom colors for the status column
                 def color_status(val):
@@ -69,7 +78,7 @@ def main():
                     return f'background-color: {color}'
                 
                 st.write("## Sensor Data")
-                st.write(df[['sensor_index', 'name', 'last_seen', 'latitude', 'longitude', 'status']].style.applymap(color_status, subset=['status']))
+                st.dataframe(df[['sensor_index', 'name', 'last_seen', 'latitude', 'longitude', 'status']].style.applymap(color_status, subset=['status']),height=800)
 
                 st.write("## Status Color Coding")
                 st.markdown("""
