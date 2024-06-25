@@ -48,6 +48,9 @@ def calculate_notes(last_seen_time):
     return 'Time since sensor offline'+' '+str(time_difference)
 
 def main():
+
+    st.set_page_config(layout="wide")
+
     st.title("PurpleAir Sensor Status")
 
     st.write("Enter your PurpleAir API key to fetch the latest sensor status.")
@@ -78,7 +81,7 @@ def main():
                     return f'background-color: {color}'
                 
                 st.write("## Sensor Data")
-                st.dataframe(df[['sensor_index', 'name', 'last_seen', 'latitude', 'longitude', 'status']].style.applymap(color_status, subset=['status']),height=700, width=800)
+                st.dataframe(df[['sensor_index', 'name', 'last_seen', 'latitude', 'longitude', 'status','notes']].style.applymap(color_status, subset=['status']),height=700)
 
                 st.write("## Status Color Coding")
                 st.markdown("""
